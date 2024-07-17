@@ -38,7 +38,8 @@ const Login = () => {
 
     return (
         <div className={classes.formContainer}>
-            <FormGroup onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+           <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+            <FormGroup>
                 <FormControl>
                     <InputLabel htmlFor="email">Email</InputLabel>
                     <Input
@@ -61,6 +62,7 @@ const Login = () => {
 
                 <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>Login</Button>
             </FormGroup>
+            </form>
         </div>
     );
 };

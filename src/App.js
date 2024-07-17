@@ -5,6 +5,7 @@ import './App.css';
 import Appbar from './Components/Appbar';
 import Register from './Components/Auth/register';
 import Login from './Components/Auth/login';
+import CreateFreelancer from './Components/FreeLancer/CreateFreeLancer';
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/CreateFreelancer" element={<CreateFreelancer />} />
+
         </Routes>
     </Router>
   );
