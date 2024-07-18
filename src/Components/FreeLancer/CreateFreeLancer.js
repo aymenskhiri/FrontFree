@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, FormHelperText } from '@material-ui/core';
 
@@ -21,10 +22,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 const CreateFreelancer = () => {
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const [userId, setUserId] = useState(null);
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         const storedUserId = localStorage.getItem('userId');
@@ -34,14 +37,26 @@ const CreateFreelancer = () => {
         }
     }, [setValue]);
 
+
+    
     const onSubmit = async (data) => {
         try {
             const response = await axios.post('http://laraproject.test/api/freelancer-profiles', data);
             console.log(response.data);
+    
+            const freelancerProfile = response.data.freelancerProfile; 
+            const freelancerId = freelancerProfile.user_id; 
+            localStorage.setItem('freelancerId', freelancerId);
+            console.log('Freelancer ID:', freelancerId);
+          
+            navigate('/DashboardFreelancer');            
+    
         } catch (error) {
             console.error('Freelancer creation error:', error.response.data);
         }
     };
+    
+    
 
     return (
         <div className={classes.formContainer}>

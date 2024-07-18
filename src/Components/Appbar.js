@@ -19,6 +19,10 @@ export default function Appbar() {
           <Button color="inherit" component={Link} to="/register">Register</Button>
           <Button color="inherit" component={Link} to="/login">Login</Button>
           <Button color="inherit" component={Link} to="/CreateFreeLancer">CreateFreeLancer</Button>
+          <Button color="inherit" component={Link} to="/DashboardFreelancer">DashboardFreelancer</Button>  
+          <Button color="inherit" component={Link} to="/MyPosts">My Posts</Button>  
+
+
 
         </Toolbar>
       </AppBar>
