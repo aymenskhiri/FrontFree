@@ -9,6 +9,11 @@ import CreateFreelancer from './Components/FreeLancer/CreateFreeLancer';
 import CreatePost from './Components/Posts/CreatePost';
 import DashboardFreelancer from './Components/FreeLancer/DashboardFreelancer'
 import MyPosts from './Components/FreeLancer/MyPosts'
+import ClientView from './Components/Posts/ClientView';
+import PostList from './Components/Posts/PostList';
+import CreateDemand from './Components/Demand/CreateDemand';
+
+
 
 
 function App() {
@@ -21,8 +26,13 @@ function App() {
           <Route path="/CreateFreelancer" element={<CreateFreelancer />} />
           <Route path="/CreatePost" element={<CreatePost />} />
           <Route path="/DashboardFreelancer" element={<DashboardFreelancer />} />
-          <Route path="/MyPosts" element={<MyPosts />} />
+          <Route path="/MyPosts" element={<MyPosts />} />          
+          <Route path="/ClientView" element={<ClientView />} /> 
+          <Route path="/PostList" element={<PostList />} />
+          <Route path="/CreateDemand" element={<CreateDemand />} />  
+  
 
+   
 
 
         </Routes>

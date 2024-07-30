@@ -49,7 +49,7 @@ const CreateFreelancer = () => {
             localStorage.setItem('freelancerId', freelancerId);
             console.log('Freelancer ID:', freelancerId);
           
-            navigate('/DashboardFreelancer');            
+            navigate('/login');            
     
         } catch (error) {
             console.error('Freelancer creation error:', error.response.data);

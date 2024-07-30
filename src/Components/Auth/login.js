@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, FormHelperText } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,15 +26,33 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
     const classes = useStyles();
+    const navigate = useNavigate(); 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = async (data) => {
         try {
             const response = await axios.post('http://laraproject.test/api/login', data);
             console.log(response.data);
-        } catch (error) {
+
+            const { role, client_id, freelancer_id } = response.data.user;
+            const token = response.data.token;
+      
+            // Store token in localStorage or state management
+            localStorage.setItem('token', token);
+      
+            if (role === 'freelancer') {
+              
+                localStorage.setItem('freelancerId', response.data.freelancer_id);
+                navigate('/DashboardFreelancer');
+            } else if (role === 'client') {
+             
+                localStorage.setItem('client_id', response.data.client_id);
+              navigate('/ClientView');
+            }
+      
+          } catch (error) {
             console.error('Login error:', error.response.data);
-        }
+          }
     };
 
     return (

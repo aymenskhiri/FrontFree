@@ -48,6 +48,10 @@ const Register = () => {
             if (response.data.user.role === 'freelancer') {
                 navigate('/CreateFreelancer');
             }
+            else{
+                navigate('/login');
+
+            }
 
         } catch (error) {
             console.error(error.response.data);

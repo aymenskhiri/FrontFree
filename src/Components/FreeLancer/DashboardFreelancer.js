@@ -12,7 +12,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -65,6 +64,8 @@ function ResponsiveDrawer(props) {
             <ListItemButton onClick={() => handleListItemClick('MyPosts')}>
               <ListItemIcon>
                 <ListAltIcon/>
+              
+                
               </ListItemIcon>
               <ListItemText primary="My Posts"  />
             </ListItemButton>
@@ -96,7 +97,6 @@ function ResponsiveDrawer(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
-            <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Freelancer Dashboard
