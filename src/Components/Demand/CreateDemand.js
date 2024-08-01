@@ -33,7 +33,6 @@ const Demand = () => {
 
   console.log('Post ID:', postId);
   console.log('Freelancer ID:', freelancerId);
-  console.log('Client ID from URL:', clientId);
 
   const storedClientId = localStorage.getItem('client_id');
   console.log('Stored Client ID:', storedClientId);
@@ -47,7 +46,7 @@ const Demand = () => {
         post_id: postId,
         freelancer_id: freelancerId,
         client_id: storedClientId, 
-        status: 'progressing'
+        status: 'On Hold'
       }, {
         headers: {
           'Content-Type': 'application/json'
@@ -61,6 +60,10 @@ const Demand = () => {
 
   return (
     <div className={classes.formContainer}>
+            <div>
+                <h2>Demand a Service</h2>
+                <br></br>
+            </div>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <FormGroup>
           <FormControl>

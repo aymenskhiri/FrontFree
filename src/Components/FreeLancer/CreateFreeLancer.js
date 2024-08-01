@@ -60,6 +60,10 @@ const CreateFreelancer = () => {
 
     return (
         <div className={classes.formContainer}>
+            <div>
+                <h2>Create a Freelancer Porfile</h2>
+                <br></br>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
                 <FormGroup>
                     <FormControl>
@@ -94,15 +98,6 @@ const CreateFreelancer = () => {
                         {errors.hourly_price && <FormHelperText error>{errors.hourly_price.message}</FormHelperText>}
                     </FormControl>
 
-                    <FormControl>
-                        <InputLabel htmlFor="reviews">Reviews</InputLabel>
-                        <Input
-                            id="reviews"
-                            type="number"
-                            {...register('reviews')}
-                        />
-                        {errors.reviews && <FormHelperText error>{errors.reviews.message}</FormHelperText>}
-                    </FormControl>
 
                     <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>Create Freelancer</Button>
                 </FormGroup>

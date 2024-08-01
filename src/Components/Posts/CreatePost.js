@@ -40,7 +40,6 @@ const CreatePost = () => {
 
     const onSubmit = async (data) => {
         try {
-            // Check if freelancer ID exists
             const checkResponse = await axios.get(`http://laraproject.test/api/freelancer-profiles/${data.freelancer_profile_id}`);
             if (checkResponse.status === 200) {
                 const formData = new FormData();
@@ -70,6 +69,10 @@ const CreatePost = () => {
 
     return (
         <div className={classes.formContainer}>
+            <div>
+                <h2>Create a Post</h2>
+                <br></br>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
                 <FormGroup>
                     <FormControl>

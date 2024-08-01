@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -17,12 +17,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdatePost from '../Posts/UpdatePost';
 import DeletePost from '../Posts/DeletePost';
+import axios from 'axios';
 
 function Row(props) {
   const { row, onUpdate, onDelete } = props;
-  const [open, setOpen] = React.useState(false);
-  const [updateOpen, setUpdateOpen] = React.useState(false);
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [updateOpen, setUpdateOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   return (
     <React.Fragment>
@@ -42,7 +43,7 @@ function Row(props) {
         <TableCell align="right">{row.description}</TableCell>
         <TableCell align="right">
           <img
-            src={row.image ? `http://laraproject.test/storage/images/${row.image}` : "/static/images/cards/paella.jpg"} 
+            src={row.image ? `http://laraproject.test/storage/images/${row.image}` : "/static/images/cards/paella.jpg"}
             alt={row.title || "Post image"}
             style={{ width: '100px', height: 'auto', objectFit: 'cover' }}
           />
@@ -71,7 +72,7 @@ function Row(props) {
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">Created At</TableCell>
-                    <TableCell>{row.created_at}</TableCell>
+                    <TableCell>{new Date(row.created_at).toLocaleDateString()}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -101,19 +102,19 @@ Row.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     created_at: PropTypes.string.isRequired,
-    image: PropTypes.string, // Add image prop type
+    image: PropTypes.string,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
 export default function CollapsibleTable() {
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchPosts = async () => {
-      const freelancerId = localStorage.getItem('freelancer_id');
-      console.log('Fetching posts for Freelancer ID:', freelancerId); // Check value here
+      const freelancerId = localStorage.getItem('freelancerId'); // Use consistent key
+      console.log('Stored Freelancer ID:', freelancerId); // Enhanced logging
 
       if (!freelancerId) {
         console.error('Freelancer ID is not set.');
@@ -121,13 +122,9 @@ export default function CollapsibleTable() {
       }
 
       try {
-        const response = await fetch(`http://laraproject.test/api/freelancers/${freelancerId}/posts`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch posts');
-        }
-        const posts = await response.json();
-        console.log('Fetched posts:', posts);
-        setRows(posts);
+        const response = await axios.get(`http://laraproject.test/api/freelancers/${freelancerId}/posts`);
+        console.log('Fetched posts:', response.data);
+        setRows(response.data); 
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -145,6 +142,13 @@ export default function CollapsibleTable() {
   };
 
   return (
+<div>
+        <div style={{ textAlign: 'center' }}>
+            <h2>My Posts</h2>
+        </div>
+        <br />
+        <br />
+
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
@@ -163,5 +167,6 @@ export default function CollapsibleTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   );
 }

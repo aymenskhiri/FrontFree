@@ -12,7 +12,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CreatePost from '../Posts/CreatePost';
@@ -142,14 +141,9 @@ function ResponsiveDrawer(props) {
         <Toolbar />
         {selectedComponent === 'home' && (
           <>
-            <Typography paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-            </Typography>
-            <Typography paragraph>
-              Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-            </Typography>
-          </>
+          <div style={{ textAlign: 'center' }}>
+            <Typography paragraph>Welecome to your Dashboard !!</Typography>
+            </div></>
         )}
         {selectedComponent === 'createPost' && <CreatePost />}
         {selectedComponent === 'MyPosts' && <MyPosts />}
