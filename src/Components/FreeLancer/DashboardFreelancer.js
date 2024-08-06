@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,9 +14,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CreatePost from '../Posts/CreatePost';
-import MyPosts from '../FreeLancer/MyPosts'
+import MyPosts from '../FreeLancer/MyPosts';
 import AddIcon from '@mui/icons-material/Add';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
@@ -58,21 +58,16 @@ function ResponsiveDrawer(props) {
             <ListItemText primary="Create a Post" />
           </ListItemButton>
         </ListItem>
-        
-          <ListItem  disablePadding>
-            <ListItemButton onClick={() => handleListItemClick('MyPosts')}>
-              <ListItemIcon>
-                <ListAltIcon/>
-              
-                
-              </ListItemIcon>
-              <ListItemText primary="My Posts"  />
-            </ListItemButton>
-          </ListItem>
-        
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => handleListItemClick('MyPosts')}>
+            <ListItemIcon>
+              <ListAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Posts" />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
-   
     </div>
   );
 
@@ -86,6 +81,7 @@ function ResponsiveDrawer(props) {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          top: 64,
         }}
       >
         <Toolbar>
@@ -114,7 +110,7 @@ function ResponsiveDrawer(props) {
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true, 
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
@@ -136,18 +132,16 @@ function ResponsiveDrawer(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, mt: 8 }} // Add margin-top to ensure space for AppBar
       >
         <Toolbar />
         {selectedComponent === 'home' && (
-          <>
           <div style={{ textAlign: 'center' }}>
-            <Typography paragraph>Welecome to your Dashboard !!</Typography>
-            </div></>
+            <Typography paragraph>Welcome to your Dashboard !!</Typography>
+          </div>
         )}
         {selectedComponent === 'createPost' && <CreatePost />}
         {selectedComponent === 'MyPosts' && <MyPosts />}
-
       </Box>
     </Box>
   );

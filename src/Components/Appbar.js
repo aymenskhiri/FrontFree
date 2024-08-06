@@ -90,7 +90,15 @@ export default function Appbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="fixed"
+        sx={{ 
+          width: '100%',
+          top: 0,
+          left: 0,
+          bgcolor: 'goldenrod'
+        }}
+      >
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             MyApp
@@ -104,10 +112,17 @@ export default function Appbar() {
           {auth && (
             <>
               {role === 'client' && (
-                <Button color="inherit" component={Link} to="/ClientView">ClientView</Button>
+                <>
+                  <Button color="inherit" component={Link} to="/ClientView">ClientView</Button>
+                  <Button color="inherit" component={Link} to="/MyDemands">My Demands</Button>
+                </>
               )}
               {role === 'freelancer' && (
-                <Button color="inherit" component={Link} to="/DashboardFreelancer">DashboardFreelancer</Button>
+                <>
+                  <Button color="inherit" component={Link} to="/DashboardFreelancer">DashboardFreelancer</Button>
+                  <Button color="inherit" component={Link} to="/MyServices">My Services</Button>
+                  <Button color="inherit" component={Link} to="/DemandList">My Demand List</Button>
+                </>
               )}
               <div>
                 <IconButton
@@ -143,6 +158,8 @@ export default function Appbar() {
           )}
         </Toolbar>
       </AppBar>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+      </Box>
     </Box>
   );
 }

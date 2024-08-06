@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Register = () => {
     const classes = useStyles();
-    const { register, handleSubmit, formState: { errors } , watch} = useForm({
+    const { register, handleSubmit, formState: { errors }, setError, watch } = useForm({
         defaultValues: {
             first_name: '',
             last_name: '',
@@ -63,7 +63,17 @@ const Register = () => {
             }
 
         } catch (error) {
-            console.error(error.response.data);
+            if (error.response && error.response.data) {
+                const serverErrors = error.response.data.errors;
+                for (const key in serverErrors) {
+                    setError(key, {
+                        type: 'server',
+                        message: serverErrors[key][0]
+                    });
+                }
+            } else {
+                console.error(error);
+            }
         }
     };
 

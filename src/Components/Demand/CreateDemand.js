@@ -34,7 +34,7 @@ const Demand = () => {
   console.log('Post ID:', postId);
   console.log('Freelancer ID:', freelancerId);
 
-  const storedClientId = localStorage.getItem('client_id');
+  const storedClientId = localStorage.getItem('clientId');
   console.log('Stored Client ID:', storedClientId);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -60,14 +60,15 @@ const Demand = () => {
 
   return (
     <div className={classes.formContainer}>
-            <div>
-                <h2>Demand a Service</h2>
-                <br></br>
-            </div>
+      <div>
+        <h2>Demand a Service</h2>
+        <br></br>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <FormGroup>
           <FormControl>
             <InputLabel htmlFor="service_date">Service Date</InputLabel>
+            <br/><br/>
             <Input
               id="service_date"
               type="date"
@@ -86,6 +87,17 @@ const Demand = () => {
               {...register('description', { required: 'Description is required' })}
             />
             {errors.description && <FormHelperText error>{errors.description.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl>
+          <br></br>
+            <InputLabel htmlFor="begin_hour">Begin Hour</InputLabel>
+            <Input
+              id="begin_hour"
+              type="time"
+              {...register('begin_hour', { required: 'Begin hour is required' })}
+            />
+            {errors.begin_hour && <FormHelperText error>{errors.begin_hour.message}</FormHelperText>}
           </FormControl>
 
           <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>Create Demand</Button>

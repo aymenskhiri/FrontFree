@@ -40,15 +40,15 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.title}
         </TableCell>
-        <TableCell align="right">{row.description}</TableCell>
-        <TableCell align="right">
+        <TableCell align="center">{row.description}</TableCell>
+        <TableCell align="center">
           <img
             src={row.image ? `http://laraproject.test/storage/images/${row.image}` : "/static/images/cards/paella.jpg"}
             alt={row.title || "Post image"}
             style={{ width: '100px', height: 'auto', objectFit: 'cover' }}
           />
         </TableCell>
-        <TableCell align="right">
+        <TableCell align="center">
           <IconButton color="primary" onClick={() => setUpdateOpen(true)}>
             <EditIcon />
           </IconButton>
@@ -113,8 +113,8 @@ export default function CollapsibleTable() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const freelancerId = localStorage.getItem('freelancerId'); // Use consistent key
-      console.log('Stored Freelancer ID:', freelancerId); // Enhanced logging
+      const freelancerId = localStorage.getItem('freelancerId'); 
+      console.log('Stored Freelancer ID:', freelancerId); 
 
       if (!freelancerId) {
         console.error('Freelancer ID is not set.');
@@ -122,7 +122,7 @@ export default function CollapsibleTable() {
       }
 
       try {
-        const response = await axios.get(`http://laraproject.test/api/freelancers/${freelancerId}/posts`);
+        const response = await axios.get(`http://laraproject.test/api/posts/freelancer/${freelancerId}`);
         console.log('Fetched posts:', response.data);
         setRows(response.data); 
       } catch (error) {
@@ -155,9 +155,9 @@ export default function CollapsibleTable() {
           <TableRow>
             <TableCell />
             <TableCell>Title</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Image</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell align="center">Description</TableCell>
+            <TableCell align="center">Image</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
