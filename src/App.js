@@ -16,6 +16,9 @@ import DemandList from './Components/FreeLancer/DemandList';
 import AuthProvider from './Components/Auth/AuthContext';
 import PrivateRoute from './Components/Auth/PrivateRoute';
 import MyDemands from './Components/Demand/MyDemands';
+import FreelancerProfile from './Components/FreeLancer/FreelancerProfile';
+import UserTable from './Components/Admin/UserTable';
+import FreelancerTable from './Components/Admin/FreelancerTable';
 
 
 function App() {
@@ -26,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />  
-          <Route path="/CreateFreelancer" element={<PrivateRoute element={<CreateFreelancer />} />} />
+          <Route path="/CreateFreelancer" element={<CreateFreelancer />} />  
           <Route path="/CreatePost" element={<PrivateRoute element={<CreatePost />} />} />
           <Route path="/DashboardFreelancer" element={<PrivateRoute element={<DashboardFreelancer />} />} />
           <Route path="/MyPosts" element={<PrivateRoute element={<MyPosts />} />} />
@@ -36,6 +39,10 @@ function App() {
           <Route path="/MyServices" element={<PrivateRoute element={<MyServices />} />} />
           <Route path="/DemandList" element={<PrivateRoute element={<DemandList />} />} />
           <Route path="/MyDemands" element={<PrivateRoute element={<MyDemands />} />} />
+          <Route path="/FreelancerProfile" element={<PrivateRoute element={<FreelancerProfile />} />} />
+          <Route path="/UserTable" element={<PrivateRoute element={<UserTable />} />} />
+          <Route path="/FreelancerTable" element={<FreelancerTable />} />
+
         </Routes>
       </AuthProvider>
     </Router>

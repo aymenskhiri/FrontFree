@@ -65,7 +65,10 @@ const Login = () => {
                 navigate('/DashboardFreelancer');
             } else if (role === 'client') {
                 navigate('/ClientView');
-            } else {
+            }
+            else if (role === 'admin') {
+                navigate('/UserTable'); }
+            else {
                 console.error('Unknown role:', role);
             }
     

@@ -29,15 +29,13 @@ const Demand = () => {
   const queryParams = new URLSearchParams(search);
   const postId = queryParams.get('post_id');
   const freelancerId = queryParams.get('freelancer_id');
-  const clientId = queryParams.get('client_id');
-
-  console.log('Post ID:', postId);
-  console.log('Freelancer ID:', freelancerId);
 
   const storedClientId = localStorage.getItem('clientId');
-  console.log('Stored Client ID:', storedClientId);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, setError } = useForm();
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
 
   const onSubmit = async (data) => {
     try {
@@ -55,6 +53,17 @@ const Demand = () => {
       console.log(response.data);
     } catch (error) {
       console.error('Demand creation error:', error.response?.data || error.message);
+
+      // Handle validation errors
+      if (error.response && error.response.data && error.response.data.errors) {
+        const validationErrors = error.response.data.errors;
+        Object.keys(validationErrors).forEach((field) => {
+          setError(field, {
+            type: 'server',
+            message: validationErrors[field][0],
+          });
+        });
+      }
     }
   };
 
@@ -62,17 +71,20 @@ const Demand = () => {
     <div className={classes.formContainer}>
       <div>
         <h2>Demand a Service</h2>
-        <br></br>
+        <br />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <FormGroup>
           <FormControl>
             <InputLabel htmlFor="service_date">Service Date</InputLabel>
-            <br/><br/>
+            <br /><br />
             <Input
               id="service_date"
               type="date"
-              {...register('service_date', { required: 'Service date is required' })}
+              {...register('service_date', { 
+                required: 'Service date is required',
+              })}
+              inputProps={{ min: today }} // Disable dates before today
             />
             {errors.service_date && <FormHelperText error>{errors.service_date.message}</FormHelperText>}
           </FormControl>
@@ -90,8 +102,8 @@ const Demand = () => {
           </FormControl>
 
           <FormControl>
-          <br></br>
-            <InputLabel htmlFor="begin_hour">Begin Hour</InputLabel>
+            <br />
+            <InputLabel htmlFor="begin_hour">Start Hour</InputLabel>
             <Input
               id="begin_hour"
               type="time"

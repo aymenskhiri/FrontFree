@@ -89,7 +89,7 @@ const CreateFreelancer = () => {
                     </FormControl>
 
                     <FormControl>
-                        <InputLabel htmlFor="hourly_price">Hourly Price</InputLabel>
+                        <InputLabel htmlFor="hourly_price">Hourly Wage</InputLabel>
                         <Input
                             id="hourly_price"
                             type="number"

@@ -7,6 +7,7 @@ const PrivateRoute = ({ element: Element }) => {
     const location = useLocation();
 
     console.log('PrivateRoute:', { isAuthenticated, role, pathname: location.pathname });
+    
 
     if (!isAuthenticated) {
         return <Navigate to="/login" state={{ from: location }} replace />;
@@ -18,9 +19,15 @@ const PrivateRoute = ({ element: Element }) => {
             return <Navigate to="/DashboardFreelancer" replace />;
         }
     } else if (role === 'client') {
-        if (!['/ClientView', '/PostList', '/CreateDemand','/MyDemands'].includes(location.pathname)) {
+        if (!['/ClientView', '/PostList', '/CreateDemand','/MyDemands','/FreelancerProfile'].includes(location.pathname)) {
             console.log('Redirecting to /ClientView');
             return <Navigate to="/ClientView" replace />;
+        }
+    }
+    else if (role === 'admin') {
+        if (!['/UserTable'].includes(location.pathname)) {
+            console.log('Redirecting to /UserTable');
+            return <Navigate to="/UserTable" replace />;
         }
     }
 

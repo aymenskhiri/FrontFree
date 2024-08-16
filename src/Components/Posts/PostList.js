@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -11,12 +11,12 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Pagination from '@mui/material/Pagination';
-import Button from '@mui/material/Button'; 
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import Rating from '@mui/material/Rating'; 
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -44,10 +44,19 @@ const PostCard = styled(Card)({
   margin: '10px',
 });
 
+const CardActionsContainer = styled(CardActions)({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+});
+
 const PostList = ({ posts = [] }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [expanded, setExpanded] = useState({});
-  const navigate = useNavigate(); 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [selectedFreelancerId, setSelectedFreelancerId] = useState(null);
+  const navigate = useNavigate();
 
   const postsPerPage = 12;
   const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -68,6 +77,22 @@ const PostList = ({ posts = [] }) => {
     navigate(`/CreateDemand?post_id=${postId}&freelancer_id=${freelancerId}&client_id=${client_id}`);
   };
 
+  const handleAvatarClick = (event, freelancerId) => {
+    setAnchorEl(event.currentTarget);
+    setPopoverOpen(true);
+    setSelectedFreelancerId(freelancerId);
+  };
+
+  const handlePopoverClose = () => {
+    setPopoverOpen(false);
+    setAnchorEl(null);
+  };
+
+  const handleViewProfileClick = () => {
+    navigate(`/FreelancerProfile?freelancer_id=${selectedFreelancerId}`);
+    handlePopoverClose();
+  };
+
   const currentPosts = posts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
 
   return (
@@ -78,15 +103,32 @@ const PostList = ({ posts = [] }) => {
           const user = freelancerProfile.user || {};
           const firstName = user.first_name || '';
           const lastName = user.last_name || '';
-          const avatarLetter = firstName[0] || 'R';
+          const avatarLetter = firstName[0] || 'F';
 
           return (
             <PostCard key={post.id}>
               <CardHeader
                 avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    {avatarLetter}
-                  </Avatar>
+                  <div>
+                    <Avatar
+                      sx={{ bgcolor: red[500] }}
+                      aria-label="recipe"
+                      onClick={(event) => handleAvatarClick(event, freelancerProfile.id)}
+                    >
+                      {avatarLetter}
+                    </Avatar>
+                    <Popover
+                      open={popoverOpen}
+                      anchorEl={anchorEl}
+                      onClose={handlePopoverClose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                    >
+                      <Button onClick={handleViewProfileClick}>View Profile Freelancer</Button>
+                    </Popover>
+                  </div>
                 }
                 action={
                   <IconButton aria-label="settings">
@@ -107,29 +149,31 @@ const PostList = ({ posts = [] }) => {
                   {post.description}
                 </Typography>
               </CardContent>
-              <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                  <ShareIcon />
-                </IconButton>
-                <ExpandMore
-                  expand={expanded[post.id] || false}
-                  onClick={() => handleExpandClick(post.id)}
-                  aria-expanded={expanded[post.id]}
-                  aria-label="show more"
-                >
-                  <ExpandMoreIcon />
-                </ExpandMore>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleCreateDemand(post)}
-                >
-                  Create Demand
-                </Button>
-              </CardActions>
+              <CardActionsContainer style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto',marginLeft: '90px' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+    <div>
+      <Typography component="legend">Best Review</Typography>
+      <Rating name="read-only" value={freelancerProfile.best_review || 0} readOnly />
+    </div>
+    <Button
+      variant="contained"
+      style={{ backgroundColor: 'gold', color: 'black' }}
+      size="small"
+      onClick={() => handleCreateDemand(post)}
+    >
+      Create Demand
+    </Button>
+  </div>
+  <ExpandMore
+    expand={expanded[post.id] || false}
+    onClick={() => handleExpandClick(post.id)}
+    aria-expanded={expanded[post.id]}
+    aria-label="show more"
+  >
+    <ExpandMoreIcon />
+  </ExpandMore>
+</CardActionsContainer>
+
               <Collapse in={expanded[post.id] || false} timeout="auto" unmountOnExit>
                 <CardContent>
                   <Typography paragraph>

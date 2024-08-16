@@ -124,6 +124,11 @@ export default function Appbar() {
                   <Button color="inherit" component={Link} to="/DemandList">My Demand List</Button>
                 </>
               )}
+                {role === 'admin' && (
+                <>
+                  <Button color="inherit" component={Link} to="/UserTable">Users</Button>
+                </>
+              )}
               <div>
                 <IconButton
                   size="large"
