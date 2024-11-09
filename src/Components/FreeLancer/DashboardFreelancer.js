@@ -11,12 +11,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import AddIcon from '@mui/icons-material/Add';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CreatePost from '../Posts/CreatePost';
 import MyPosts from '../FreeLancer/MyPosts';
-import AddIcon from '@mui/icons-material/Add';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import MessageIcon from '@mui/icons-material/Message';
+import ConversationsList from './ConversationsList ';
+
 
 const drawerWidth = 240;
 
@@ -66,6 +69,15 @@ function ResponsiveDrawer(props) {
             <ListItemText primary="My Posts" />
           </ListItemButton>
         </ListItem>
+        {/* New Conversations List Item */}
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => handleListItemClick('Conversations')}>
+            <ListItemIcon>
+              <MessageIcon />
+            </ListItemIcon>
+            <ListItemText primary="Conversations" />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
     </div>
@@ -91,8 +103,7 @@ function ResponsiveDrawer(props) {
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-          </IconButton>
+          />
           <Typography variant="h6" noWrap component="div">
             Freelancer Dashboard
           </Typography>
@@ -132,7 +143,7 @@ function ResponsiveDrawer(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, mt: 8 }} // Add margin-top to ensure space for AppBar
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, mt: 8 }}
       >
         <Toolbar />
         {selectedComponent === 'home' && (
@@ -142,6 +153,8 @@ function ResponsiveDrawer(props) {
         )}
         {selectedComponent === 'createPost' && <CreatePost />}
         {selectedComponent === 'MyPosts' && <MyPosts />}
+        {/* Display Conversations List */}
+        {selectedComponent === 'Conversations' && <ConversationsList />}
       </Box>
     </Box>
   );

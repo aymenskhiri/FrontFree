@@ -30,8 +30,7 @@ const Demand = () => {
   const postId = queryParams.get('post_id');
   const freelancerId = queryParams.get('freelancer_id');
 
-  const storedClientId = localStorage.getItem('clientId');
-
+  const storedClientId = localStorage.getItem('client_id'); 
   const { register, handleSubmit, formState: { errors }, setError } = useForm();
 
   // Get today's date in YYYY-MM-DD format

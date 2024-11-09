@@ -22,15 +22,15 @@ function DemandList() {
 
   useEffect(() => {
     const fetchDemands = async () => {
-      const freelancerId = localStorage.getItem('freelancerId');
-      if (!freelancerId) {
+      const freelancer_id = localStorage.getItem('freelancer_id');
+      if (!freelancer_id) {
         console.error('Freelancer ID is not set.');
         return;
       }
 
       try {
         console.log('Sending search parameter:', search); // Debugging line
-        const response = await axios.get(`http://laraproject.test/api/freelancers/${freelancerId}/demands`, {
+        const response = await axios.get(`http://laraproject.test/api/freelancers/${freelancer_id}/demands`, {
           params: { search } 
         });
         console.log('Fetched demands:', response.data); // Debugging: Check API response

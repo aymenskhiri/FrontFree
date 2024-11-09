@@ -19,6 +19,8 @@ import MyDemands from './Components/Demand/MyDemands';
 import FreelancerProfile from './Components/FreeLancer/FreelancerProfile';
 import UserTable from './Components/Admin/UserTable';
 import FreelancerTable from './Components/Admin/FreelancerTable';
+import Conversation from './Components/Messages/Conversation';
+import ConversationsList from './Components/FreeLancer/ConversationsList ';
 
 
 function App() {
@@ -42,6 +44,10 @@ function App() {
           <Route path="/FreelancerProfile" element={<PrivateRoute element={<FreelancerProfile />} />} />
           <Route path="/UserTable" element={<PrivateRoute element={<UserTable />} />} />
           <Route path="/FreelancerTable" element={<FreelancerTable />} />
+          <Route path="/conversation/:conversationId" element={<Conversation />} />
+          <Route path="/conversations/:conversationId" element={<ConversationsList />} />
+
+
 
         </Routes>
       </AuthProvider>

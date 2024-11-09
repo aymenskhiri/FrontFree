@@ -27,41 +27,38 @@ const CreatePost = () => {
     const [freelancerId, setFreelancerId] = useState(null);
     const [image, setImage] = useState(null);
 
-    useEffect(() => {
-        const storedFreelancerId = localStorage.getItem('freelancerId');
-        console.log('Stored Freelancer ID:', storedFreelancerId);
+      useEffect(() => {
+        const storedFreelancerId = localStorage.getItem('freelancer_id');  // Use lowercase key
         if (storedFreelancerId) {
             setFreelancerId(storedFreelancerId);
-            setValue('freelancer_profile_id', storedFreelancerId); 
         } else {
             console.error('Freelancer ID is not found in local storage.');
         }
-    }, [setValue]);
+    }, []);
 
     const onSubmit = async (data) => {
         try {
-            const checkResponse = await axios.get(`http://laraproject.test/api/freelancer-profiles/${data.freelancer_profile_id}`);
-            if (checkResponse.status === 200) {
-                const formData = new FormData();
-                formData.append('freelancer_profile_id', data.freelancer_profile_id);
-                formData.append('title', data.title);
-                formData.append('description', data.description);
-                if (image) formData.append('image', image);
-    
-                const response = await axios.post('http://laraproject.test/api/posts', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                console.log(response.data);
-            } else {
-                console.error('Invalid freelancer profile ID');
+            if (!freelancerId) {
+                console.error('Freelancer ID is missing.');
+                return;
             }
+
+            const formData = new FormData();
+            formData.append('freelancer_profile_id', freelancerId);
+            formData.append('title', data.title);
+            formData.append('description', data.description);
+            if (image) formData.append('image', image);
+
+            const response = await axios.post('http://laraproject.test/api/posts', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log('Post created successfully:', response.data);
         } catch (error) {
             console.error('Post creation error:', error.response?.data || error.message);
         }
     };
-    
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
@@ -71,7 +68,7 @@ const CreatePost = () => {
         <div className={classes.formContainer}>
             <div>
                 <h2>Create a Post</h2>
-                <br></br>
+                <br />
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
                 <FormGroup>
@@ -107,7 +104,9 @@ const CreatePost = () => {
                         {errors.image && <FormHelperText error>{errors.image.message}</FormHelperText>}
                     </FormControl>
 
-                    <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>Create Post</Button>
+                    <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>
+                        Create Post
+                    </Button>
                 </FormGroup>
             </form>
         </div>

@@ -9,8 +9,8 @@ const UpdatePost = ({ open, handleClose, post, onUpdate }) => {
     const [freelancerProfileId, setFreelancerProfileId] = useState(null);
 
     useEffect(() => {
-        const storedProfileId = localStorage.getItem('freelancer_profile_id');
-        console.log('Retrieved freelancer_profile_id in UpdatePost:', storedProfileId);
+        const storedProfileId = localStorage.getItem('freelancer_id');
+        console.log('Retrieved freelancer_id in UpdatePost:', storedProfileId);
         setFreelancerProfileId(storedProfileId);
 
         if (post) {
@@ -27,7 +27,7 @@ const UpdatePost = ({ open, handleClose, post, onUpdate }) => {
 
         try {
             const formData = new FormData();
-            formData.append('freelancer_profile_id', freelancerProfileId);
+            formData.append('freelancer_id', freelancerProfileId);
             formData.append('title', data.title);
             formData.append('description', data.description);
             if (image) formData.append('image', image);

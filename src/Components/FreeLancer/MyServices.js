@@ -17,14 +17,14 @@ export default function MyServices() {
 
   useEffect(() => {
     const fetchDemands = async () => {
-      const freelancerId = localStorage.getItem('freelancerId');
-      if (!freelancerId) {
+      const freelancer_id = localStorage.getItem('freelancer_id');
+      if (!freelancer_id) {
         console.error('Freelancer ID is not set.');
         return;
       }
 
       try {
-        const response = await axios.get(`http://laraproject.test/api/freelancers/${freelancerId}/demands/approved`, {
+        const response = await axios.get(`http://laraproject.test/api/freelancers/${freelancer_id}/demands/approved`, {
           params: {
             search,
             sort: orderBy,

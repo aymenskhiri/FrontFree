@@ -16,7 +16,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
-import Rating from '@mui/material/Rating'; 
+import Rating from '@mui/material/Rating';
+import axios from 'axios';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -93,6 +94,25 @@ const PostList = ({ posts = [] }) => {
     handlePopoverClose();
   };
 
+  const handleOpenConversation = async (post) => {
+    try {
+      const clientId = localStorage.getItem('client_id');
+      const freelancerId = post.freelancer_profile.id;
+
+      // Make an API request to open the conversation
+      const response = await axios.post('http://laraproject.test/api/conversations/open', {
+        client_id: clientId,
+        freelancer_id: freelancerId,
+      });
+
+      const conversationId = response.data.id;
+      // Redirect to the conversation page
+      navigate(`/conversation/${conversationId}`);
+    } catch (error) {
+      console.error('Failed to open conversation:', error);
+    }
+  };
+
   const currentPosts = posts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
 
   return (
@@ -149,31 +169,36 @@ const PostList = ({ posts = [] }) => {
                   {post.description}
                 </Typography>
               </CardContent>
-              <CardActionsContainer style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto',marginLeft: '90px' }}>
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-    <div>
-      <Typography component="legend">Best Review</Typography>
-      <Rating name="read-only" value={freelancerProfile.best_review || 0} readOnly />
-    </div>
-    <Button
-      variant="contained"
-      style={{ backgroundColor: 'gold', color: 'black' }}
-      size="small"
-      onClick={() => handleCreateDemand(post)}
-    >
-      Create Demand
-    </Button>
-  </div>
-  <ExpandMore
-    expand={expanded[post.id] || false}
-    onClick={() => handleExpandClick(post.id)}
-    aria-expanded={expanded[post.id]}
-    aria-label="show more"
-  >
-    <ExpandMoreIcon />
-  </ExpandMore>
-</CardActionsContainer>
-
+              <CardActionsContainer>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                  <Typography component="legend">Best Review</Typography>
+                  <Rating name="read-only" value={freelancerProfile.best_review || 0} readOnly />
+                  <Button
+                    variant="contained"
+                    style={{ backgroundColor: 'gold', color: 'black' }}
+                    size="small"
+                    onClick={() => handleCreateDemand(post)}
+                  >
+                    Create Demand
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleOpenConversation(post)}
+                  >
+                    Open Conversation
+                  </Button>
+                </div>
+                <ExpandMore
+                  expand={expanded[post.id] || false}
+                  onClick={() => handleExpandClick(post.id)}
+                  aria-expanded={expanded[post.id]}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              </CardActionsContainer>
               <Collapse in={expanded[post.id] || false} timeout="auto" unmountOnExit>
                 <CardContent>
                   <Typography paragraph>
