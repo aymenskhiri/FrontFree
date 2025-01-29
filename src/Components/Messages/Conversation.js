@@ -126,7 +126,7 @@ const Conversation = () => {
         variant="contained"
         type="submit"
         endIcon={<SendIcon />}
-        sx={{ width: '120px', height: 'fit-content' }}  // Set button width here
+        sx={{ width: '120px', height: 'fit-content' }}  
     >
         Send
     </Button>

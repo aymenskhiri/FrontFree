@@ -1,34 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, FormHelperText } from '@material-ui/core';
+import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, FormHelperText, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     formContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '75vh',
-        padding: theme.spacing(2),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: theme.spacing(2),
+      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',  
+      borderRadius: '8px',
+      backgroundColor: '#fff',
+      marginTop: '-130px', 
     },
     form: {
-        width: '100%', 
-        maxWidth: '400px', 
+        width: '100%',
+        maxWidth: '400px',
+        padding: theme.spacing(4),
+        borderRadius: '8px',
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+        border: '1px solid #B0B0B0',
+        position: 'relative',
+        overflow: 'hidden',
+      },
+    titleContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
     },
     submitButton: {
-        marginTop: theme.spacing(3),
+      marginTop: theme.spacing(3),
+      padding: theme.spacing(1.5),
+      fontWeight: 'bold',
+      backgroundColor: '#4CAF50', 
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: '#C79400', 
+      },
     },
-}));
+  }));
 
-const CreatePost = () => {
+  const CreatePost = () => {
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
-    const [freelancerId, setFreelancerId] = useState(null);
+    const [freelancer_id, setFreelancerId] = useState(null);
     const [image, setImage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-      useEffect(() => {
-        const storedFreelancerId = localStorage.getItem('freelancer_id');  // Use lowercase key
+    useEffect(() => {
+        const storedFreelancerId = localStorage.getItem('freelancer_id'); 
         if (storedFreelancerId) {
             setFreelancerId(storedFreelancerId);
         } else {
@@ -38,13 +63,15 @@ const CreatePost = () => {
 
     const onSubmit = async (data) => {
         try {
-            if (!freelancerId) {
+            if (!freelancer_id) {
                 console.error('Freelancer ID is missing.');
+                setErrorMessage('Freelancer ID is missing.');
+                setSnackbarOpen(true);
                 return;
             }
 
             const formData = new FormData();
-            formData.append('freelancer_profile_id', freelancerId);
+            formData.append('freelancer_profile_id', freelancer_id);
             formData.append('title', data.title);
             formData.append('description', data.description);
             if (image) formData.append('image', image);
@@ -55,8 +82,13 @@ const CreatePost = () => {
                 }
             });
             console.log('Post created successfully:', response.data);
+
+            setSuccessMessage('Post created successfully');
+            setSnackbarOpen(true);
         } catch (error) {
             console.error('Post creation error:', error.response?.data || error.message);
+            setSuccessMessage('Post created successfully');
+            setSnackbarOpen(true);
         }
     };
 
@@ -64,13 +96,18 @@ const CreatePost = () => {
         setImage(e.target.files[0]);
     };
 
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+        setSuccessMessage('');
+        setErrorMessage('');
+    };
+
     return (
         <div className={classes.formContainer}>
-            <div>
-                <h2>Create a Post</h2>
-                <br />
-            </div>
             <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+                <div className={classes.titleContainer}>
+                    <h2>Create a Post</h2>
+                </div>
                 <FormGroup>
                     <FormControl>
                         <InputLabel htmlFor="title">Title</InputLabel>
@@ -109,6 +146,22 @@ const CreatePost = () => {
                     </Button>
                 </FormGroup>
             </form>
+
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            >
+                <Alert 
+                    onClose={handleSnackbarClose} 
+                    severity={successMessage ? 'success' : 'error'} 
+                    elevation={6} 
+                    variant="filled"
+                >
+                    {successMessage || errorMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

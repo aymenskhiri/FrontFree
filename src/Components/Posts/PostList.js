@@ -47,8 +47,10 @@ const PostCard = styled(Card)({
 
 const CardActionsContainer = styled(CardActions)({
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'center', // Center the content horizontally
   alignItems: 'center',
+  flexDirection: 'column', // Stack the buttons vertically
+  gap: '15px', // Add some spacing between the buttons
 });
 
 const PostList = ({ posts = [] }) => {
@@ -187,7 +189,7 @@ const PostList = ({ posts = [] }) => {
                     size="small"
                     onClick={() => handleOpenConversation(post)}
                   >
-                    Open Conversation
+                    Contact
                   </Button>
                 </div>
                 <ExpandMore

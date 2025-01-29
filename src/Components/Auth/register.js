@@ -19,9 +19,25 @@ const useStyles = makeStyles((theme) => ({
     form: {
         width: '100%', 
         maxWidth: '400px', 
+        padding: theme.spacing(4),  // Padding inside the form
+        borderRadius: '8px',       // Rounded corners for the form
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // Shadow for the form
+        border: '1px solid #B0B0B0', 
+    },
+    titleContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%', 
     },
     submitButton: {
-        marginTop: theme.spacing(5), 
+        marginTop: theme.spacing(3),
+        padding: theme.spacing(1.5),
+        fontWeight: 'bold',
+        backgroundColor: '#4CAF50', // Green color
+        color: '#fff',
+        '&:hover': {
+            backgroundColor: '#C79400', // Darker green shade for hover
+        },
     },
 }));
 
@@ -79,12 +95,11 @@ const Register = () => {
 
     return (
         <div className={classes.formContainer}>
-            <div>
+        <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+            <div className={classes.titleContainer}>
                 <h2>Register</h2>
-                <br />
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-                <FormGroup>
+            <FormGroup>
                     <FormControl>
                         <InputLabel htmlFor="first_name">First Name*</InputLabel>
                         <Input

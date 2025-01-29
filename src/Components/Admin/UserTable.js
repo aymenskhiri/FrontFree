@@ -58,7 +58,7 @@ const UserTable = () => {
             <DynamicTable
                 columns={columns}
                 data={users}
-                title="User List"
+                title="Users List"
                 renderAdditionalDetails={renderAdditionalDetails}
             />
             {updateUser && (

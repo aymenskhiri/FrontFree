@@ -96,12 +96,12 @@ export default function Appbar() {
           width: '100%',
           top: 0,
           left: 0,
-          bgcolor: 'goldenrod'
+          bgcolor: '#4caf50'
         }}
       >
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            MyApp
+            Freelanci
           </Typography>
           {!auth && (
             <>

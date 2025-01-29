@@ -1,55 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { List, ListItem, ListItemText, Typography, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // To navigate to the conversation details
+import { useNavigate } from 'react-router-dom';
+import { Chat as ChatIcon } from '@mui/icons-material';
 
 const ConversationsList = () => {
   const [conversations, setConversations] = useState([]);
-  const freelancerId = localStorage.getItem('freelancer_id'); // Get the freelancer ID from local storage
-  const navigate = useNavigate(); // To navigate to the selected conversation page
+  const [error, setError] = useState(null); // Added error state
+  const freelancerId = localStorage.getItem('freelancer_id'); // Retrieve freelancer ID
+  const navigate = useNavigate(); // Navigation function
 
   useEffect(() => {
     if (freelancerId) {
-      fetchConversations(freelancerId); // Fetch conversations based on freelancer ID
+      fetchConversations(freelancerId); // Fetch all conversations for the freelancer
     }
   }, [freelancerId]);
 
-  const fetchConversations = async () => {
+  const fetchConversations = async (freelancerId) => {
     try {
-      const response = await axios.get(`http://laraproject.test/api/conversations/${freelancerId}`);
-      setConversations(response.data);
+      const response = await axios.get(`http://laraproject.test/api/conversations?freelancer_id=${freelancerId}`);
+      setConversations(response.data); // Correctly set array data
     } catch (error) {
-      // Check if the error has a response from the server
-      if (error.response) {
-        console.error('Server responded with error:', error.response.data);
+      if (error.response && error.response.status === 404) {
+        console.error('No conversations found:', error.response.data.message);
+        setError('No conversations found.');
       } else {
-        console.error('Error occurred while fetching conversations:', error.message);
+        console.error('Error fetching conversations:', error.message);
+        setError('Failed to fetch conversations.');
       }
     }
   };
-  
 
   const handleSelectConversation = (conversationId) => {
-    // Navigate to the conversation detail page with the selected conversation ID
-    navigate(`/conversation/${conversationId}`);
+    navigate(`/conversation/${conversationId}`); // Navigate to conversation details
   };
 
   return (
     <Box>
-      <Typography variant="h6">Your Conversations</Typography>
-      <List>
-        {conversations.length === 0 ? (
-          <Typography>No conversations available.</Typography>
-        ) : (
-          conversations.map((conversation) => (
-            <ListItem button key={conversation.id} onClick={() => handleSelectConversation(conversation.id)}>
-              {/* Display the client's name dynamically */}
-              <ListItemText primary={`Conversation with ${conversation.client_name}`} />
-            </ListItem>
-          ))
-        )}
-      </List>
-    </Box>
+  {error && <Typography color="error">{error}</Typography>}
+  <List>
+    {conversations.length === 0 ? (
+      <Typography>No conversations available.</Typography>
+    ) : (
+      conversations.map((conversation) => (
+        <ListItem button key={conversation.id} onClick={() => handleSelectConversation(conversation.id)}>
+          {/* Replace text with an icon */}
+          <ChatIcon style={{ fontSize: 80, color: '#4caf50' }} />
+        </ListItem>
+      ))
+    )}
+  </List>
+</Box>
   );
 };
 

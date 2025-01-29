@@ -88,13 +88,14 @@ function ResponsiveDrawer(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          top: 64,
-        }}
+     <AppBar
+  position="fixed"
+  sx={{
+    backgroundColor: 'white', // Change this to your preferred color
+    width: { sm: `calc(100% - ${drawerWidth}px)` },
+    ml: { sm: `${drawerWidth}px` },
+    top: 64,
+  }}
       >
         <Toolbar>
           <IconButton
@@ -104,9 +105,19 @@ function ResponsiveDrawer(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           />
-          <Typography variant="h6" noWrap component="div">
-            Freelancer Dashboard
-          </Typography>
+          <Typography
+  variant="h6"
+  noWrap
+  component="div"
+  sx={{
+    color: 'black', // Set the text color to black
+    flexGrow: 1,    // Allow it to take up available space and center it
+    textAlign: 'center', // Center the text horizontally
+  }}
+>
+  Freelancer Dashboard
+</Typography>
+
         </Toolbar>
       </AppBar>
       <Box
